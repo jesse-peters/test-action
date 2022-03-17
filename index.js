@@ -8,8 +8,11 @@ try {
   const time = new Date().toTimeString();
   core.setOutput("time", time);
 
-  const nicerDiffs = await getCustomDiff();
-  console.log(JSON.stringify(nicerDiffs, null, 2));
+  getCustomDiff().then(() => {
+    console.log(JSON.stringify(self, null, 2));
+    core.setOutput("diff", diff);
+  });
+
   // Get the JSON webhook payload for the event that triggered the workflow
   const payload = JSON.stringify(github.context.payload, undefined, 2);
   console.log(`The event payload: ${payload}`);
